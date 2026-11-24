@@ -635,6 +635,12 @@ textarea.field{height:200px;padding:12px 14px;resize:none;line-height:1.5}
 .chip small{font-size:11px;margin-left:4px;letter-spacing:-1px}
 .chip.gone{opacity:.35}
 
+.role-list{display:grid;gap:8px;margin-top:14px}
+.role-row{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);animation:up .35s var(--ease) backwards}
+.role-row .ri{width:34px;height:34px;flex:none;border-radius:11px;display:grid;place-items:center;font-size:19px;background:var(--accent-soft)}
+.role-row b{display:block;font-family:var(--round);font-size:15.5px;font-weight:800;color:var(--accent)}
+.role-row span:not(.ri){display:block;color:var(--muted);font-size:13.5px;line-height:1.4;margin-top:1px}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
   .screen,.cover,.sheet{transition-duration:.2s!important}
@@ -1586,7 +1592,7 @@ const SPECIALS = ['seer', 'witch', 'hunter', 'amor', 'guard', 'elder', 'fool', '
 $('#setups').insertAdjacentHTML('beforeend', H.screen('ww-setup', 'Werwolf', 'ww',
   H.panel(H.players('ww')) +
   H.panel(H.stepRow('Werwölfe', 'ww-wsub', 'ww-wolves')) +
-  H.panel(`<h3>Sonderrollen</h3><p class="sub">Tippe die Rollen an, die mitspielen sollen</p><div id="ww-specials"></div><p class="desc" id="ww-roledesc"></p>`) +
+  H.panel(`<h3>Sonderrollen</h3><p class="sub">Tippe die Rollen an, die mitspielen sollen</p><div id="ww-specials"></div><div class="role-list" id="ww-roledesc"></div>`) +
   H.panel(`<h3>Spielleitung</h3>` + H.seg('ww-mode', ['app', 'App leitet'], ['mod', 'Eigener Spielleiter']) + `<p class="desc" id="ww-mdesc"></p>` +
     H.collapse('ww-appw',
       H.sw('ww-voice', 'Erzählerstimme', 'Die App liest die Nacht laut vor') +
@@ -1601,7 +1607,14 @@ wwForm.players('ww', 5, 20);
 wwForm.stepper('ww-wolves', 'wolves', 1, () => maxWolves(WS.players));
 wwForm.text('ww-wsub', () => `Empfohlen: ${Math.max(1, Math.round(WS.players / 4))} bei ${WS.players} Spielern`);
 wwForm.chips('ww-specials', 'specials', SPECIALS.map(r => [r, ROLES[r].i + ' ' + ROLES[r].n]), true);
-wwForm.text('ww-roledesc', () => WS.specials.length ? WS.specials.map(r => ROLES[r].n + ': ' + ROLES[r].d).join(' · ') : 'Nur Werwölfe und Dorfbewohner – der Klassiker.');
+let roleSig = null;
+wwForm.u.push(() => {
+  const box = $('#ww-roledesc'), sig = WS.specials.join();
+  if (sig === roleSig) return; roleSig = sig;
+  box.innerHTML = WS.specials.length
+    ? SPECIALS.filter(r => WS.specials.includes(r)).map(r => `<div class="role-row"><span class="ri">${ROLES[r].i}</span><div><b>${ROLES[r].n}</b><span>${ROLES[r].d}</span></div></div>`).join('')
+    : '<div class="role-row"><span class="ri">🐺</span><div><b>Klassisch</b><span>Nur Werwölfe und Dorfbewohner.</span></div></div>';
+});
 wwForm.seg('ww-mode', 'mode');
 wwForm.text('ww-mdesc', () => WS.mode === 'app' ? 'Das Handy liegt nachts in der Mitte und ruft die Rollen auf. Alle spielen mit.' : 'Die App verteilt nur die Rollen. Danach bekommt der Spielleiter eine Übersicht.');
 wwForm.when('ww-appw', () => WS.mode === 'app');
