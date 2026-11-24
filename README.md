@@ -29,6 +29,7 @@ Partykiste ist eine Web-App mit zehn Partyspielen für Spieleabende mit Freunden
 - **Erzählerstimmen:** Vier aufgenommene Stimmen (Helmut, Mila, Leonard, Tessa) oder die Computerstimme des Geräts.
 - **Ruhiges Design:** Dunkles Farbschema mit eigener Farbe pro Spiel, Glas-Optik im iOS-Stil und sanften Animationen. Bei „Bewegung reduzieren“ werden Animationen automatisch abgeschaltet.
 - **Suche und Favoriten** auf der Startseite.
+- **Einstellungen** (Zahnrad unter der Suche): Erzählerstimme, Soundeffekte, Ansagen, Konfetti, weniger Bewegung, Daten zurücksetzen und nach Updates suchen.
 - **Offline-fähig:** Nach dem ersten Öffnen läuft alles ohne Internet.
 - **Datensparsam:** Keine Anmeldung, kein Tracking. Alles wird nur lokal auf dem Gerät gespeichert.
 - **Bildschirm bleibt an** während eines Spiels.
@@ -84,7 +85,7 @@ Fehlende Dateien ersetzt Werwolf automatisch durch die Computerstimme.
 
 ## 🔄 Updates
 
-Nach jeder Änderung die Versionsnummer in `sw.js` erhöhen (z. B. `partykiste-v13` → `partykiste-v14`). Sonst zeigen bereits installierte Apps weiter die alte, gespeicherte Version.
+Nach jeder Änderung die Versionsnummer in `sw.js` erhöhen (z. B. `partykiste-v16` → `partykiste-v17`). Öffnet man die App danach mit Internet, lädt sie die neue Version im Hintergrund und zeigt unten „✨ Neue Version ist bereit – Neu laden“. Ohne neue Versionsnummer bleibt die alte, gespeicherte Version aktiv.
 
 ---
 

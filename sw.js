@@ -1,8 +1,9 @@
-const CACHE = 'partykiste-v14';
+const CACHE = 'partykiste-v16';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  // cache:'reload' holt die Dateien frisch vom Server (nicht aus dem Browser-Zwischenspeicher)
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, {cache:'reload'})))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', e => {

@@ -641,6 +641,37 @@ textarea.field{height:200px;padding:12px 14px;resize:none;line-height:1.5}
 .role-row b{display:block;font-family:var(--round);font-size:15.5px;font-weight:800;color:var(--accent)}
 .role-row span:not(.ri){display:block;color:var(--muted);font-size:13.5px;line-height:1.4;margin-top:1px}
 
+/* ---------- Einstellungen ---------- */
+.filters{align-items:center}
+.icon-btn.gear{margin-left:auto;width:38px;height:38px}
+.icon-btn.gear svg{width:19px;height:19px}
+.icon-btn.gear.spin svg{animation:gearspin .7s cubic-bezier(.3,1.4,.5,1)}
+@keyframes gearspin{to{transform:rotate(180deg)}}
+.settings-sheet h3{margin-bottom:6px}
+.set-sec{padding:14px 0;border-bottom:1px solid var(--line)}
+.set-sec:last-of-type{border-bottom:0}
+.set-sec h4{margin:0 0 2px;font-size:16px;font-family:var(--round)}
+.set-d{color:var(--muted);font-size:13.5px;margin:2px 0 0!important}
+.set-sec .chips{padding-top:10px}
+.set-btns{display:grid;gap:8px;margin-top:12px}
+.set-btns .btn{min-height:46px;font-size:15px}
+.set-btns .btn.arm{background:var(--spy);color:#3d1308;border-color:transparent}
+.app-info{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding:12px 14px;border-radius:16px;background:var(--surface2);border:1px solid var(--line)}
+.app-info b{display:block;font-family:var(--round)}
+.app-info span{color:var(--muted);font-size:13.5px}
+.offline-tag{color:var(--accent)!important;font-weight:600}
+.update-bar{position:fixed;left:50%;bottom:calc(var(--sb) + 18px);transform:translateX(-50%);z-index:65;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:99px;white-space:nowrap;font-weight:600;font-size:15px;animation:up .5s var(--ease)}
+.update-bar button{height:36px;padding:0 14px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-weight:700}
+body.calm *,body.calm *::before,body.calm *::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
+body.calm .screen,body.calm .cover,body.calm .sheet{transition-duration:.2s!important}
+
+.voice-link{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px 14px;border-radius:18px;text-align:left;color:var(--text)}
+.voice-link .vl-ic{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:20px;background:var(--accent-soft)}
+.voice-link .vl-t{flex:1}.voice-link b{display:block;font-family:var(--round);font-size:16px}
+.voice-link small{color:var(--muted);font-size:13px}
+.voice-link .vl-go{font-size:24px;color:var(--faint)}
+.sheet .grab{padding:8px 0;margin:-8px auto 8px;box-sizing:content-box;background-clip:content-box;cursor:grab}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
   .screen,.cover,.sheet{transition-duration:.2s!important}
@@ -683,7 +714,7 @@ textarea.field{height:200px;padding:12px 14px;resize:none;line-height:1.5}
     </div>
     <div class="home-tools">
       <label class="search glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="search" type="search" placeholder="Spiele suchen" autocomplete="off" enterkeyhint="search"><button class="clear" id="search-x" aria-label="Suche leeren" hidden>✕</button></label>
-      <div class="filters"><button class="capsule glass on" data-filter="all">Alle</button><button class="capsule glass" data-filter="fav">★ Favoriten <span id="fav-count">0</span></button></div>
+      <div class="filters"><button class="capsule glass on" data-filter="all">Alle</button><button class="capsule glass" data-filter="fav">★ Favoriten <span id="fav-count">0</span></button><button class="icon-btn gear" id="open-settings" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
     </div>
     <div class="games">
       <button class="game" data-nav="spy-setup" data-game="spy" data-k="spion imposter bluffen wort undercover" style="--c1:#4a3db8;--c2:#8a6cf0"><span class="fav glass" data-fav="spy" role="button" aria-label="Favorit"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg></span><div class="txt"><h3>Spion</h3><p>Alle kennen das Wort – bis auf einen.</p><div class="tags"><span>3–20 Spieler</span><span>Bluffen</span></div></div><div class="gemoji">🕵️</div></button>
@@ -797,6 +828,35 @@ textarea.field{height:200px;padding:12px 14px;resize:none;line-height:1.5}
     </div>
   </div>
 </div>
+
+<div class="backdrop" id="m-settings">
+  <div class="sheet settings-sheet" role="dialog" aria-modal="true">
+    <div class="grab"></div>
+    <h3>Einstellungen</h3>
+    <section class="set-sec"><h4>🎙️ Erzählerstimme</h4><p class="set-d">Gilt für Werwolf und alle Ansagen in den anderen Spielen.</p>
+      <div class="chips" id="set-voice"></div>
+      <div class="collapse" id="set-ttsw"><div><div class="voice-row"><select class="field" id="set-vsel"></select></div><p class="set-d" id="set-vnote" style="margin-top:8px!important"></p></div></div>
+      <div class="voice-row"><button class="btn soft" id="set-vtest" style="flex:1">▶︎ Stimme anhören</button></div></section>
+    <section class="set-sec"><h4>🔊 Ton & Bewegung</h4>
+      <label class="row-switch first"><span><span class="t">Soundeffekte</span><span class="d">Signale, Ticken, Countdown-Töne</span></span><input type="checkbox" class="switch" id="set-sound"></label>
+      <label class="row-switch"><span><span class="t">Ansagen</span><span class="d">Erzählerstimme bei Countdowns und Endstand</span></span><input type="checkbox" class="switch" id="set-announce"></label>
+      <label class="row-switch"><span><span class="t">Konfetti</span><span class="d">Bei Siegen und Treffern</span></span><input type="checkbox" class="switch" id="set-confetti"></label>
+      <label class="row-switch"><span><span class="t">Weniger Bewegung</span><span class="d">Ruhigere, kürzere Animationen</span></span><input type="checkbox" class="switch" id="set-calm"></label></section>
+    <section class="set-sec"><h4>🗂️ Daten</h4><p class="set-d">Alles bleibt nur auf diesem Gerät gespeichert.</p>
+      <div class="set-btns">
+        <button class="btn soft" data-reset="scores">Punktestände zurücksetzen</button>
+        <button class="btn soft" data-reset="names">Gespeicherte Namen löschen</button>
+        <button class="btn soft" data-reset="favs">Favoriten löschen</button>
+        <button class="btn danger" data-reset="all">Alles zurücksetzen</button></div></section>
+    <section class="set-sec"><h4>ℹ️ App</h4>
+      <div class="app-info"><div><b>Partykiste</b><span id="set-version">Version wird geladen …</span></div><span class="offline-tag" id="set-offline"></span></div>
+      <button class="btn soft big" id="set-update" style="margin-top:10px">Nach Updates suchen</button>
+      <p class="set-d" style="margin-top:12px">Updates kommen automatisch, sobald du die App mit Internet öffnest. Ist eine neue Version geladen, erscheint unten ein Hinweis zum Neuladen.</p></section>
+    <div class="btns" style="margin-top:6px"><button class="btn primary big" data-close>Fertig</button></div>
+  </div>
+</div>
+
+<div class="update-bar glass" id="update-bar" hidden><span>✨ Neue Version ist bereit</span><button id="update-reload">Neu laden</button></div>
 
 <div class="toast" id="toast"></div>
 
@@ -937,6 +997,8 @@ const store = {
   get(k, d){ try{ const v = localStorage.getItem('partykiste.' + k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem('partykiste.' + k, JSON.stringify(v)); }catch(e){} }
 };
+const APP = Object.assign({sound:true, announce:true, confetti:true, calm:false}, (() => { try{ return JSON.parse(localStorage.getItem('partykiste.app')) || {}; }catch(e){ return {}; } })());
+const saveApp = () => { try{ localStorage.setItem('partykiste.app', JSON.stringify(APP)); }catch(e){} document.body.classList.toggle('calm', APP.calm); };
 const haptic = ms => { try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const spyWord = n => n === 1 ? 'Spion' : 'Spione';
@@ -944,9 +1006,9 @@ const on = (root, sel, fn) => $$(sel, root).forEach(el => el.addEventListener('c
 let toastT;
 function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2200); }
 function paint(el, html){ el.innerHTML = html; el.animate([{opacity:0}, {opacity:1}], {duration:260, easing:'ease-out'}); }
-const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const calm = () => APP.calm || matchMedia('(prefers-reduced-motion: reduce)').matches;
 function confetti(n = 80){
-  if (calm()) return;
+  if (calm() || !APP.confetti) return;
   const box = document.createElement('div'); box.className = 'confetti'; document.body.appendChild(box);
   const cols = ['#ff8a7a', '#ffc46b', '#b3a4ff', '#8fd3c1', '#ff9fcf', '#7fc8ff', '#fff'];
   for (let i = 0; i < n; i++){
@@ -987,7 +1049,7 @@ document.addEventListener('dblclick', e => e.preventDefault(), {passive:false});
 let actx = null;
 function ensureAudio(){ try{ if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; }catch(e){} try{ actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); }catch(e){} }
 function tones(freqs, gap = .2, vol = .11, len = 1.4){
-  if (!actx) return;
+  if (!actx || !APP.sound) return;
   const t = actx.currentTime;
   freqs.forEach((f, i) => {
     const o = actx.createOscillator(), g = actx.createGain(), s = t + i * gap;
@@ -1001,7 +1063,13 @@ const chime = () => tones([523.25, 659.25, 783.99]);
 const V_F = ['anna','helena','petra','marlene','katja','hedda','vicki','amala','seraphina','marie','lena','sara','google deutsch','female','frau'];
 const V_M = ['markus','yannick','viktor','martin','stefan','conrad','killian','florian','jonas','hans','male','mann'];
 const V_FUN = ['eddy','flo','grandma','grandpa','reed','rocko','sandy','shelley','bad news','bahh','bells','boing','bubbles','cellos','good news','jester','organ','superstar','trinoids','whisper','wobble','zarvox','albert','fred','junior','kathy','ralph'];
-function deVoices(){ try{ return speechSynthesis.getVoices().filter(v => /^de/i.test(v.lang)); }catch(e){ return []; } }
+function deVoices(){
+  try{
+    const seen = new Set();
+    return speechSynthesis.getVoices().filter(v => /^de/i.test(v.lang)).sort((a, b) => voiceScore(b) - voiceScore(a))
+      .filter(v => { const k = v.name.replace(/\s*\(.*\)\s*$/, '').trim().toLowerCase() + (/premium|enhanced|erweitert/i.test(v.name) ? '+' : ''); if (seen.has(k)) return false; seen.add(k); return true; });
+  }catch(e){ return []; }
+}
 function voiceGender(v){ const n = v.name.toLowerCase(); if (V_F.some(x => n.includes(x))) return 'f'; if (V_M.some(x => n.includes(x))) return 'm'; return '?'; }
 function voiceScore(v){
   const n = v.name.toLowerCase(); let s = 0;
@@ -1030,7 +1098,8 @@ function say(text, o = {}){
 
 /* ---------- Sprachausgabe: eigene Aufnahmen (z. B. ElevenLabs), sonst Computerstimme ---------- */
 const NARR = {"ww_night1": "Die Nacht senkt sich über das Dorf. Alle schließen die Augen … und schlafen ein.", "ww_night": "Wieder wird es Nacht im Dorf. Alle schließen die Augen.", "ww_amor_wake": "Amor, wach auf. Wähle zwei Menschen, die sich unsterblich ineinander verlieben.", "ww_amor_sleep": "Amor schläft wieder ein. Die Verliebten öffnen die Augen und erfahren, wer zusammengehört.", "ww_lovers_sleep": "Die Verliebten schließen die Augen.", "ww_guard_wake": "Beschützer, öffne die Augen. Wen möchtest du heute Nacht beschützen?", "ww_guard_sleep": "Beschützer, schließe die Augen.", "ww_wolves_wake": "Werwölfe, öffnet die Augen … und einigt euch leise auf ein Opfer.", "ww_wolves_sleep": "Die Werwölfe sind satt und schließen die Augen.", "ww_seer_wake": "Seherin, öffne die Augen. Wessen Geheimnis möchtest du erfahren?", "ww_seer_sleep": "Seherin, schließe die Augen.", "ww_witch_wake": "Hexe, öffne die Augen.", "ww_witch_sleep": "Hexe, schließe die Augen.", "ww_dawn_dead": "Die Sonne geht auf. Alle öffnen die Augen. Diese Nacht hat ein Opfer gefordert … seht auf das Handy.", "ww_dawn_none": "Die Sonne geht auf. Alle öffnen die Augen. Wie durch ein Wunder ist heute Nacht niemand gestorben.", "ww_hunter": "Der Jäger ist gefallen – doch mit seinem letzten Schuss reißt er jemanden mit in den Tod.", "ww_day": "Das Dorf versammelt sich auf dem Marktplatz. Wer von euch ist ein Werwolf? Diskutiert!", "ww_vote": "Das Dorf muss sich entscheiden: Wer wird verbannt?", "ww_banned": "Das Dorf hat entschieden. Eine Person muss das Dorf für immer verlassen.", "ww_nobody": "Heute wird niemand verbannt. Doch das Misstrauen bleibt.", "ww_fool": "Das Dorf lacht – es ist der Dorfdepp! Er darf bleiben, aber nie wieder abstimmen.", "ww_win_village": "Das Dorf hat gesiegt! Alle Werwölfe sind besiegt.", "ww_win_wolves": "Die Werwölfe haben gewonnen. Das Dorf ist verloren.", "ww_win_lovers": "Die Liebe hat gesiegt! Die Verliebten gewinnen gemeinsam.", "spy_time": "Die Zeit ist um! Wer ist der Spion? Stimmt jetzt ab.", "spy_civ_win": "Erwischt! Die Bürger haben gewonnen.", "spy_spy_win": "Der Spion ist entkommen – und gewinnt!", "cd_3": "Drei.", "cd_2": "Zwei.", "cd_1": "Eins.", "cd_show": "Zeigt!", "cd_go": "Los geht’s!", "sr_time": "Die Zeit ist um!", "wbi_right": "Richtig! Gut erraten.", "est_reveal": "Und die richtige Antwort lautet …", "game_end": "Das Spiel ist vorbei. Hier ist der Endstand!"};
-const VOICES = [['helmut', '👨 Helmut'], ['mila', '👩 Mila'], ['leonard', '👨 Leonard'], ['tessa', '👩 Tessa'], ['tts', '🤖 Computerstimme']];
+const VOICES = [['helmut', '👨 Helmut'], ['leonard', '👨 Leonard'], ['mila', '👩 Mila'], ['tessa', '👩 Tessa'], ['tts', '🤖 Computerstimme']];
+const voiceLabel = v => (VOICES.find(x => x[0] === v) || VOICES[0])[1].replace(/^\S+\s/, '');
 const narrator = () => (typeof WS !== 'undefined' && WS.narrator) || 'helmut';
 const clipCache = {};
 let narrSrc = null, narrToken = 0;
@@ -1050,6 +1119,7 @@ function loadClip(v, id){
 }
 function preloadClips(prefix, v){ if (v !== 'tts') Object.keys(NARR).filter(k => k.startsWith(prefix)).forEach(k => loadClip(v, k)); }
 async function narrate(id, o = {}){
+  if (o.fallback === false && !APP.announce) return;
   const v = o.voice || narrator(), token = ++narrToken;
   try{ speechSynthesis.cancel(); }catch(e){}
   try{ narrSrc && narrSrc.stop(); }catch(e){} narrSrc = null;
@@ -1095,8 +1165,38 @@ document.addEventListener('click', e => {
   if (e.target.classList.contains('backdrop')){ closeModal(e.target); return; }
   if (e.target.closest('[data-leave]')) openModal('leave');
 });
-function openModal(name){ $('#m-' + name).classList.add('open'); }
-function closeModal(el){ el.classList.remove('open'); }
+function openModal(name){ const m = $('#m-' + name), sh = $('.sheet', m); sh.style.transform = ''; sh.scrollTop = 0; m.classList.add('open'); }
+function closeModal(el){ const sh = $('.sheet', el); el.classList.remove('open'); if (sh) setTimeout(() => sh.style.transform = '', 20); }
+// Blätter mit dem Finger nach unten wischen zum Schließen
+$$('.backdrop').forEach(bd => {
+  const sh = $('.sheet', bd); let y0 = null, dy = 0, t0 = 0, drag = false;
+  sh.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    const onGrab = e.target.closest('.grab') || e.touches[0].clientY - sh.getBoundingClientRect().top < 56;
+    if (sh.scrollTop > 0 && !onGrab) return;
+    if (e.target.closest('input, textarea, select')) return;
+    y0 = e.touches[0].clientY; t0 = Date.now(); dy = 0; drag = false;
+  }, {passive:true});
+  sh.addEventListener('touchmove', e => {
+    if (y0 === null) return;
+    dy = e.touches[0].clientY - y0;
+    if (!drag && dy > 8){ drag = true; sh.style.transition = 'none'; }
+    if (!drag) return;
+    if (dy < 0){ dy = 0; }
+    e.preventDefault();
+    sh.style.transform = `translateY(${dy}px)`;
+    bd.style.background = `rgba(6,8,12,${Math.max(0, .55 - dy / 600)})`;
+  }, {passive:false});
+  const end = () => {
+    if (y0 === null) return;
+    const fast = dy / Math.max(1, Date.now() - t0) > .6;
+    sh.style.transition = ''; bd.style.background = '';
+    if (drag && (dy > sh.offsetHeight * .28 || (fast && dy > 40))){ closeModal(bd); haptic(8); }
+    else sh.style.transform = '';
+    y0 = null; drag = false;
+  };
+  sh.addEventListener('touchend', end); sh.addEventListener('touchcancel', end);
+});
 function openRules(k){ const [t, list] = RULES[k]; $('#rules-title').textContent = t; $('#rules-list').innerHTML = list.map(x => `<li>${x}</li>`).join(''); openModal('rules'); }
 $('#leave-confirm').addEventListener('click', () => { closeModal($('#m-leave')); Guard.exit(); show('home'); });
 
@@ -1596,9 +1696,7 @@ $('#setups').insertAdjacentHTML('beforeend', H.screen('ww-setup', 'Werwolf', 'ww
   H.panel(`<h3>Spielleitung</h3>` + H.seg('ww-mode', ['app', 'App leitet'], ['mod', 'Eigener Spielleiter']) + `<p class="desc" id="ww-mdesc"></p>` +
     H.collapse('ww-appw',
       H.sw('ww-voice', 'Erzählerstimme', 'Die App liest die Nacht laut vor') +
-      H.collapse('ww-vw', `<div id="ww-narr"></div>` +
-        H.collapse('ww-ttsw', H.seg('ww-vg', ['f', '👩 Weiblich'], ['m', '👨 Männlich']) + `<div class="voice-row"><select class="field glass-field" id="ww-vsel"></select></div>`) +
-        `<div class="voice-row"><button class="btn soft" id="ww-vtest" style="flex:1">▶︎ Stimme anhören</button></div><p class="desc" id="ww-vnote"></p>`) +
+      H.collapse('ww-vw', `<button class="voice-link glass" id="ww-voicebtn"><span class="vl-ic">🎙️</span><span class="vl-t"><b id="ww-vname">Helmut</b><small>Stimme ändern in den Einstellungen</small></span><span class="vl-go">›</span></button>`) +
       H.sw('ww-reveal', 'Rolle beim Tod zeigen', 'Verstorbene werden aufgedeckt') +
       `<div style="padding-top:14px;margin-top:14px;border-top:1px solid var(--line)"><span class="t" style="font-weight:500">Diskussionszeit am Tag</span><div id="ww-day"></div></div>`))
 ));
@@ -1619,40 +1717,16 @@ wwForm.seg('ww-mode', 'mode');
 wwForm.text('ww-mdesc', () => WS.mode === 'app' ? 'Das Handy liegt nachts in der Mitte und ruft die Rollen auf. Alle spielen mit.' : 'Die App verteilt nur die Rollen. Danach bekommt der Spielleiter eine Übersicht.');
 wwForm.when('ww-appw', () => WS.mode === 'app');
 wwForm.sw('ww-voice', 'voice'); wwForm.when('ww-vw', () => WS.voice);
-wwForm.chips('ww-narr', 'narrator', VOICES);
-wwForm.when('ww-ttsw', () => WS.narrator === 'tts');
-wwForm.seg('ww-vg', 'voiceGender');
+wwForm.text('ww-vname', () => voiceLabel(WS.narrator));
 wwForm.sw('ww-reveal', 'revealRole');
 wwForm.chips('ww-day', 'dayTime', [0, 2, 3, 5].map(d => [d, d ? d + ' Min' : 'Ohne Timer']));
-wwForm.u.push(fillVoiceSelect);
 wwForm.summary(() => {
   const vill = WS.players - WS.wolves - WS.specials.length;
   if (vill < 0) return {ok:false, t:'Zu viele Rollen für die Spielerzahl.'};
   return {ok:true, t:`${WS.players} Spieler · ${WS.wolves} Werwölfe · ${WS.specials.length} Sonderrollen · ${vill} Dorfbewohner`};
 }, startWW);
 onShow['ww-setup'] = () => wwForm.update();
-$('#ww-vg').addEventListener('click', () => { WS.voiceName = ''; wwForm.update(); });
-$('#ww-vsel').addEventListener('change', e => { WS.voiceName = e.target.value; store.set('ww.settings', WS); });
-$('#ww-vtest').addEventListener('click', () => { ensureAudio(); narrate('ww_night1', {...WS, voice:WS.narrator}); });
-try{ speechSynthesis.addEventListener('voiceschanged', () => { if (current === 'ww-setup') fillVoiceSelect(); }); }catch(e){}
-function fillVoiceSelect(){
-  const sel = $('#ww-vsel'), list = deVoices(), g = WS.voiceGender;
-  const sorted = list.slice().sort((a, b) => (voiceGender(b) === g) - (voiceGender(a) === g) || voiceScore(b) - voiceScore(a));
-  const best = pickVoice(WS);
-  sel.innerHTML = `<option value="">Automatisch${best ? ' (' + esc(best.name) + ')' : ''}</option>` +
-    sorted.map(v => `<option value="${esc(v.name)}">${voiceGender(v) === 'f' ? '👩' : voiceGender(v) === 'm' ? '👨' : '🗣️'} ${esc(v.name)}${voiceScore(v) >= 10 ? ' ✨' : ''}</option>`).join('');
-  sel.value = WS.voiceName || '';
-  if (WS.narrator !== 'tts'){
-    const name = VOICES.find(x => x[0] === WS.narrator)[1].slice(3);
-    $('#ww-vnote').innerHTML = `🎙️ <b>${name}</b> erzählt – und gilt auch für Countdowns und Ansagen in allen anderen Spielen.`;
-    loadClip(WS.narrator, 'ww_night1').then(b => { if (!b && current === 'ww-setup' && WS.narrator !== 'tts') $('#ww-vnote').innerHTML = `Die Aufnahmen von <b>${name}</b> sind hier nicht erreichbar (offline oder noch nicht hochgeladen) – solange spricht die Computerstimme.`; });
-    return;
-  }
-  const hq = list.some(v => voiceScore(v) >= 10 && voiceGender(v) === g);
-  $('#ww-vnote').innerHTML = !list.length ? 'Auf diesem Gerät wurde keine deutsche Stimme gefunden.'
-    : hq ? 'Eine hochwertige Stimme (✨) ist installiert und wird automatisch gewählt.'
-    : 'Tipp für natürlichere Stimmen: iPhone-Einstellungen → Bedienungshilfen → Gesprochene Inhalte → Stimmen → Deutsch. Dort z. B. <b>Anna</b> oder <b>Helena</b> (weiblich) bzw. <b>Markus</b> oder <b>Yannick</b> (männlich) als „Erweitert“ oder „Premium“ laden.';
-}
+$('#ww-voicebtn').addEventListener('click', () => openSettings());
 
 let W = null, wwTimers = [], wwDayTimer = null;
 const wwAfter = (fn, ms) => wwTimers.push(setTimeout(fn, ms));
@@ -2693,7 +2767,7 @@ onShow['bomb-setup'] = () => boForm.update();
 
 let BB = null;
 function boom(){
-  if (!actx) return;
+  if (!actx || !APP.sound) return;
   try{
     const len = 1.4, buf = actx.createBuffer(1, actx.sampleRate * len, actx.sampleRate), d = buf.getChannelData(0);
     for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2.5);
@@ -3092,9 +3166,73 @@ $$('#setups .scroll').forEach(sc => sc.addEventListener('scroll', () => sc.close
 document.body.dataset.theme = 'home';
 
 /* ---------- Offline ---------- */
-if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !/claude|anthropic/.test(location.hostname)){
-  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+let swReg = null;
+const swOK = 'serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !/claude|anthropic/.test(location.hostname);
+if (swOK){
+  let hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController) $('#update-bar').hidden = false; hadController = true; });
+  window.addEventListener('load', async () => { try{ swReg = await navigator.serviceWorker.register('sw.js'); }catch(e){} });
+  // Beim Zurückkehren in die App nach Updates schauen
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && swReg) swReg.update().catch(() => {}); });
 }
+$('#update-reload').addEventListener('click', () => { if (Guard.active){ toast('Erst das laufende Spiel beenden'); return; } location.reload(); });
+
+/* ---------- Einstellungen ---------- */
+async function settingsInfo(){
+  let ver = '', off = false;
+  try{ const k = (await caches.keys()).find(x => x.startsWith('partykiste-v')); if (k){ ver = k.replace('partykiste-v', ''); off = true; } }catch(e){}
+  $('#set-version').textContent = ver ? 'Version ' + ver : (swOK ? 'Version wird nach dem ersten Laden angezeigt' : 'Vorschau-Version');
+  $('#set-offline').textContent = off ? '✓ Offline bereit' : '';
+}
+function fillDeviceVoices(){
+  const sel = $('#set-vsel'), list = deVoices(), best = pickVoice(WS);
+  sel.innerHTML = `<option value="">Automatisch${best ? ' – ' + esc(best.name) : ''}</option>` + list.map(v => `<option value="${esc(v.name)}">${esc(v.name)}${voiceScore(v) >= 10 ? ' ✨' : ''}</option>`).join('');
+  sel.value = list.some(v => v.name === WS.voiceName) ? WS.voiceName : '';
+  $('#set-vnote').innerHTML = !list.length ? 'Auf diesem Gerät wurde keine deutsche Stimme gefunden.'
+    : list.some(v => voiceScore(v) >= 10) ? 'Eine hochwertige Stimme (✨) ist installiert.'
+    : 'Mehr Stimmen: iPhone-Einstellungen → Bedienungshilfen → Gesprochene Inhalte → Stimmen → Deutsch.';
+}
+try{ speechSynthesis.addEventListener('voiceschanged', () => { if ($('#m-settings').classList.contains('open')) fillDeviceVoices(); }); }catch(e){}
+$('#set-vsel').addEventListener('change', e => { WS.voiceName = e.target.value; store.set('ww.settings', WS); ensureAudio(); narrate('ww_night1', {voice:'tts', voiceName:WS.voiceName, voiceGender:WS.voiceGender}); });
+function renderSettings(){
+  $('#set-voice').innerHTML = VOICES.map(([v, l]) => `<button class="chip${WS.narrator === v ? ' on' : ''}" data-v="${v}">${l}</button>`).join('');
+  $('#set-ttsw').classList.toggle('open', WS.narrator === 'tts'); if (WS.narrator === 'tts') fillDeviceVoices();
+  $('#set-sound').checked = APP.sound; $('#set-announce').checked = APP.announce; $('#set-confetti').checked = APP.confetti; $('#set-calm').checked = APP.calm;
+  $$('[data-reset]').forEach(b => { b.classList.remove('arm'); b.textContent = b.dataset.label || b.textContent; b.dataset.label = b.textContent; });
+  settingsInfo();
+}
+function openSettings(){ renderSettings(); openModal('settings'); }
+$('#open-settings').addEventListener('click', e => { const g = e.currentTarget; g.classList.remove('spin'); void g.offsetWidth; g.classList.add('spin'); openSettings(); });
+$('#set-voice').addEventListener('click', e => {
+  const c = e.target.closest('[data-v]'); if (!c) return;
+  WS.narrator = c.dataset.v; store.set('ww.settings', WS); renderSettings(); haptic(6); if (current === 'ww-setup') wwForm.update();
+  ensureAudio(); narrate('ww_night1', {voice:WS.narrator, voiceGender:WS.voiceGender, voiceName:WS.voiceName});
+});
+$('#set-vtest').addEventListener('click', () => { ensureAudio(); narrate('ww_night1', {voice:WS.narrator, voiceGender:WS.voiceGender, voiceName:WS.voiceName}); });
+[['set-sound', 'sound'], ['set-announce', 'announce'], ['set-confetti', 'confetti'], ['set-calm', 'calm']].forEach(([id, k]) => $('#' + id).addEventListener('change', e => {
+  APP[k] = e.target.checked; saveApp();
+  if (k === 'sound' && APP.sound){ ensureAudio(); tones([660], 0, .06, .25); }
+  if (k === 'confetti' && APP.confetti) confetti(30);
+}));
+$$('[data-reset]').forEach(b => b.addEventListener('click', () => {
+  // Zweimal tippen statt Bestätigungsfenster
+  if (!b.classList.contains('arm')){ b.classList.add('arm'); b.textContent = 'Nochmal tippen zum Bestätigen'; setTimeout(() => { b.classList.remove('arm'); b.textContent = b.dataset.label; }, 3000); return; }
+  const what = b.dataset.reset;
+  const keys = () => { try{ return Object.keys(localStorage).filter(k => k.startsWith('partykiste.')); }catch(e){ return []; } };
+  if (what === 'scores'){ store.set('spy.scores', {}); toast('Punktestände zurückgesetzt'); }
+  if (what === 'names'){ keys().filter(k => k.endsWith('.settings')).forEach(k => { try{ const o = JSON.parse(localStorage.getItem(k)); if (o && Array.isArray(o.names)){ o.names = []; localStorage.setItem(k, JSON.stringify(o)); } }catch(e){} });
+    [SS, WS, ES, BS, RS, XS, BOS, LIS, NVS].forEach(o => { if (o && o.names) o.names.length = 0; }); TBS.names = ['Team Blau', 'Team Rot']; store.set('tabu.settings', TBS); $$('.names').forEach(n => n.innerHTML = ''); toast('Namen gelöscht'); }
+  if (what === 'favs'){ FAV.clear(); store.set('favs', []); homeRender(); toast('Favoriten gelöscht'); }
+  if (what === 'all'){ keys().forEach(k => localStorage.removeItem(k)); location.reload(); return; }
+  b.classList.remove('arm'); b.textContent = b.dataset.label; haptic(10);
+}));
+$('#set-update').addEventListener('click', async () => {
+  if (!swOK || !swReg){ toast('Updates gibt es nur in der installierten Version'); return; }
+  toast('Suche nach Updates …');
+  try{ await swReg.update(); }catch(e){ toast('Keine Verbindung – später nochmal versuchen'); return; }
+  setTimeout(() => { if (swReg.installing || swReg.waiting || !$('#update-bar').hidden) toast('Update wird geladen …'); else toast('Du hast die neueste Version ✓'); }, 1500);
+});
+saveApp();
 </script>
 </body>
 </html>
