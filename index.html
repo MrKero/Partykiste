@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
-<meta name="theme-color" content="#121419">
+<meta name="theme-color" content="#16131f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -672,6 +672,40 @@ body.calm .screen,body.calm .cover,body.calm .sheet{transition-duration:.2s!impo
 .voice-link .vl-go{font-size:24px;color:var(--faint)}
 .sheet .grab{padding:8px 0;margin:-8px auto 8px;box-sizing:content-box;background-clip:content-box;cursor:grab}
 
+/* ---------- Ganzer Bildschirm: unten keine Lücke, Farben bis unter die Statusleiste ---------- */
+html{background:#0f1116;min-height:100%}
+.screen{padding-bottom:0}
+.scroll{padding-bottom:calc(var(--sb) + 28px)}
+.screen>.scroll:last-child{margin-bottom:0}
+.bottom-bar{position:relative;z-index:2;margin:0 -18px;padding:12px 18px calc(var(--sb) + 12px);
+  background:linear-gradient(to top,rgba(15,17,22,.96) 55%,rgba(15,17,22,0));}
+.bottom-bar::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:22px;background:linear-gradient(to top,rgba(15,17,22,.6),transparent);pointer-events:none}
+.phase{min-height:0}
+.phase>.phase-body:last-child{padding-bottom:calc(var(--sb) + 24px)}
+.screen.night .bottom-bar{background:linear-gradient(to top,rgba(15,17,32,.96) 55%,rgba(15,17,32,0))}
+.screen.night .bottom-bar::before{background:linear-gradient(to top,rgba(15,17,32,.6),transparent)}
+/* Farbschein oben – auch hinter der Statusleiste */
+#bg::before{content:"";position:absolute;left:-15%;right:-15%;top:-12vh;height:62vh;opacity:.34;filter:blur(46px);
+  background:radial-gradient(55% 60% at 22% 30%,var(--g1),transparent 70%),radial-gradient(50% 55% at 80% 25%,var(--g2),transparent 70%),radial-gradient(45% 50% at 52% 0%,var(--g3),transparent 72%);
+  animation:topglow 18s ease-in-out infinite alternate}
+@keyframes topglow{to{transform:translateX(4%) scale(1.06)}}
+#bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(10,11,15,.35))}
+
+/* ---------- Weiches Ausblenden oben statt harter Kante ---------- */
+#home{padding-top:0}
+#home .scroll{padding-top:calc(var(--st) + 14px);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.35) calc(var(--st) * .6),#000 calc(var(--st) + 26px));
+          mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.35) calc(var(--st) * .6),#000 calc(var(--st) + 26px))}
+.screen:not(#home) .scroll,.phase-body{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 22px);
+          mask-image:linear-gradient(to bottom,transparent 0,#000 22px)}
+.screen:not(#home) .scroll{padding-top:12px}
+
+/* ---------- Volle Höhe auch in der installierten iPhone-App ---------- */
+:root{--app-h:100lvh}
+html,body{height:var(--app-h)}
+.screen,#bg,.backdrop,.countdown,.confetti,.sr-stage{top:0;bottom:auto;height:var(--app-h)}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
   .screen,.cover,.sheet{transition-duration:.2s!important}
@@ -1038,6 +1072,21 @@ const SVG_CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="curr
 const SVG_USERS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 19.5c.8-3.4 3.4-5.2 6.5-5.2s5.7 1.8 6.5 5.2"/><path d="M16 4.8a3.4 3.4 0 0 1 0 6.5M18.5 14.6c1.6.8 2.6 2.4 3 4.9"/></svg>';
 const SVG_SPY = '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 56h84"/><path d="M34 55c2-18 9-28 26-28s24 10 26 28" fill="currentColor" fill-opacity=".2"/><circle cx="42" cy="80" r="12"/><circle cx="78" cy="80" r="12"/><path d="M54 79c4-2.4 8-2.4 12 0"/></svg>';
 const SVG_EMBLEM_SPY = '<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 56h76"/><path d="M36 55c2-17 8-27 24-27s22 10 24 27" fill="currentColor" fill-opacity=".14"/><circle cx="43" cy="78" r="11"/><circle cx="77" cy="78" r="11"/><path d="M54 77.5c4-2.4 8-2.4 12 0"/></svg>';
+
+/* ---------- Bildschirmhöhe: iOS meldet in installierten Web-Apps teils zu wenig Höhe ---------- */
+function fitHeight(){
+  const standalone = navigator.standalone || matchMedia('(display-mode: standalone)').matches;
+  let h = window.innerHeight;
+  if (standalone){
+    const portrait = matchMedia('(orientation: portrait)').matches;
+    const sh = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
+    h = Math.max(h, sh);
+  }
+  document.documentElement.style.setProperty('--app-h', h + 'px');
+}
+fitHeight();
+addEventListener('resize', fitHeight);
+addEventListener('orientationchange', () => setTimeout(fitHeight, 300));
 
 /* ---------- Zoomen verhindern (iOS ignoriert user-scalable=no) ---------- */
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), {passive:false}));

@@ -85,7 +85,7 @@ Fehlende Dateien ersetzt Werwolf automatisch durch die Computerstimme.
 
 ## 🔄 Updates
 
-Nach jeder Änderung die Versionsnummer in `sw.js` erhöhen (z. B. `partykiste-v16` → `partykiste-v17`). Öffnet man die App danach mit Internet, lädt sie die neue Version im Hintergrund und zeigt unten „✨ Neue Version ist bereit – Neu laden“. Ohne neue Versionsnummer bleibt die alte, gespeicherte Version aktiv.
+Nach jeder Änderung die Versionsnummer in `sw.js` erhöhen (z. B. `partykiste-v19` → `partykiste-v20`). Öffnet man die App danach mit Internet, lädt sie die neue Version im Hintergrund und zeigt unten „✨ Neue Version ist bereit – Neu laden“. Ohne neue Versionsnummer bleibt die alte, gespeicherte Version aktiv.
 
 ---
 
