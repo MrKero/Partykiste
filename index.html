@@ -706,6 +706,49 @@ html{background:#0f1116;min-height:100%}
 html,body{height:var(--app-h)}
 .screen,#bg,.backdrop,.countdown,.confetti,.sr-stage{top:0;bottom:auto;height:var(--app-h)}
 
+/* ---------- Schwebende Knopfleiste (wie Safari) ---------- */
+.bottom-bar{position:absolute;left:0;right:0;bottom:0;z-index:5;margin:0;padding:0 18px calc(var(--sb) + 12px);background:none!important;pointer-events:none;gap:8px}
+.bottom-bar>*{pointer-events:auto}
+.bottom-bar::before{display:none!important}
+.scroll{padding-bottom:calc(max(var(--bb,0px), var(--sb)) + 22px)}
+.phase-body,.phase>.phase-body:last-child{padding-bottom:calc(max(var(--bb,0px), var(--sb)) + 22px)}
+#reveal .card-wrap{padding-bottom:calc(var(--bb,0px) + 4px)}
+.bottom-bar .btn{border-radius:99px}
+.bottom-bar .btn.primary{color:var(--accent-ink);
+  background:color-mix(in srgb,var(--accent) 74%,transparent);background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 60%);
+  -webkit-backdrop-filter:blur(22px) saturate(190%);backdrop-filter:blur(22px) saturate(190%);
+  border:1px solid rgba(255,255,255,.38);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 12px 30px -10px color-mix(in srgb,var(--accent) 60%,transparent),0 4px 14px rgba(0,0,0,.35)}
+.bottom-bar .btn.nightb{background:color-mix(in srgb,var(--night) 74%,transparent);-webkit-backdrop-filter:blur(22px) saturate(190%);backdrop-filter:blur(22px) saturate(190%);border:1px solid rgba(255,255,255,.38)}
+.bottom-bar .btn.danger{background:color-mix(in srgb,var(--spy) 30%,rgba(20,22,28,.4));-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%)}
+.bottom-bar .btn.soft{background:rgba(30,33,42,.45)}
+.bottom-bar .summary{align-self:center;min-height:0;max-width:100%;padding:7px 14px;border-radius:99px;font-size:13px;line-height:1.3;text-align:center;
+  background:rgba(22,24,32,.5);-webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);
+  border:1px solid rgba(255,255,255,.12);box-shadow:0 6px 18px -8px rgba(0,0,0,.5)}
+.bottom-bar .summary:empty{display:none}
+.bottom-bar .link{align-self:center;padding:7px 14px;border-radius:99px;text-decoration:none;color:var(--text);font-size:14px;
+  background:rgba(22,24,32,.5);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12)}
+.bottom-bar .btn:disabled{opacity:.55;filter:saturate(.6)}
+
+/* ---------- Schwebende obere Leisten (wie Safari) ---------- */
+.screen:not(#home){padding-top:0}
+.topbar,.game-top{position:absolute;top:0;left:0;right:0;z-index:5;margin:0;padding:calc(var(--st) + 10px) 18px 0;pointer-events:none}
+.topbar>*,.game-top>*{pointer-events:auto}
+.topbar h1.tb-title{flex:0 1 auto;margin:0 auto;max-width:calc(100% - 120px);padding:9px 18px;border-radius:99px;font-size:17px;line-height:1.2;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background:rgba(22,24,32,.5);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 22px -12px rgba(0,0,0,.6)}
+.game-top .stats{pointer-events:none}.game-top .stats>*{pointer-events:auto}
+.stat{background:rgba(22,24,32,.5)}
+.screen:not(#home) .scroll{padding-top:calc(var(--tb,0px) + 12px)}
+.phase-body{padding-top:calc(var(--tb,0px) + 10px)}
+#reveal.screen,#vote.screen{padding-top:var(--tb,0px)}
+#vote .phase-body{padding-top:10px}
+/* Inhalte dürfen unter die Leisten laufen und blenden erst unter der Statusleiste aus */
+.screen:not(#home) .scroll,.phase-body{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.4) calc(var(--st) * .6),#000 calc(var(--st) + 14px));
+          mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.4) calc(var(--st) * .6),#000 calc(var(--st) + 14px))}
+#vote .phase-body{-webkit-mask-image:none;mask-image:none}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
   .screen,.cover,.sheet{transition-duration:.2s!important}
@@ -3213,6 +3256,26 @@ homeRender();
 
 $$('#setups .scroll').forEach(sc => sc.addEventListener('scroll', () => sc.closest('.screen').classList.toggle('scrolled', sc.scrollTop > 110), {passive:true}));
 document.body.dataset.theme = 'home';
+
+/* ---------- Höhe der schwebenden Knopfleiste messen, damit Inhalte darüber scrollen können ---------- */
+function syncBars(){
+  $$('.screen, .phase').forEach(p => {
+    const b = [...p.children].find(c => c.classList.contains('bottom-bar'));
+    p.style.setProperty('--bb', b && !b.hidden ? b.offsetHeight + 'px' : '0px');
+  });
+  $$('.screen').forEach(sc => {
+    const t = [...sc.children].find(c => c.matches('.topbar, .game-top'));
+    sc.style.setProperty('--tb', t && !t.hidden ? (t.offsetTop + t.offsetHeight) + 'px' : '0px');
+  });
+}
+const barRO = 'ResizeObserver' in window ? new ResizeObserver(() => syncBars()) : null;
+let barRaf = 0;
+new MutationObserver(() => {
+  if (barRO) $$('.bottom-bar').forEach(b => { if (!b._obs){ b._obs = 1; barRO.observe(b); } });
+  cancelAnimationFrame(barRaf); barRaf = requestAnimationFrame(syncBars);
+}).observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:['hidden']});
+if (barRO) $$('.bottom-bar').forEach(b => { b._obs = 1; barRO.observe(b); });
+syncBars();
 
 /* ---------- Offline ---------- */
 let swReg = null;
