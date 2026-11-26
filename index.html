@@ -404,7 +404,9 @@ textarea.field{height:200px;padding:12px 14px;resize:none;line-height:1.5}
 .sr-bar i{display:block;height:100%;background:rgba(255,255,255,.7);transform-origin:left}
 .sr-word{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 26px;font-family:var(--round);font-weight:800;line-height:1.05;overflow:hidden;overflow-wrap:normal;word-break:normal}
 .sr-zones{position:absolute;inset:0;display:flex;z-index:1}
-.sr-zones button{flex:1;display:flex;align-items:flex-end;justify-content:center;padding-bottom:calc(var(--sb) + 22px);color:rgba(255,255,255,.4);font-weight:600;font-size:15px}
+.sr-zones button{flex:1}
+.sr-hints{display:flex;justify-content:space-between;padding:12px 18px 0;position:relative;z-index:0;pointer-events:none}
+.sr-hints span{padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);font-weight:600;font-size:14px}
 .sr-flash{position:absolute;inset:0;display:grid;place-items:center;z-index:3;font-family:var(--round);font-size:64px;font-weight:800;opacity:0;pointer-events:none}
 .sr-flash.show{animation:flash .65s var(--ease)}
 @keyframes flash{0%{opacity:0;transform:scale(.8)}30%{opacity:1;transform:scale(1.05)}100%{opacity:0;transform:scale(1)}}
@@ -2284,12 +2286,12 @@ function srCount(){
   step();
 }
 function srPlay(){
-  R.words = []; R.end = Date.now() + R.time * 1000; R.lock = false; R.armed = false;
+  R.words = []; R.end = Date.now() + R.time * 1000; R.lock = false; R.armed = false; R.calmSince = 0;
   $('#sr-play').classList.add('playing'); $('#sr-head').hidden = true;
   const ph = $('#sr-phase');
   ph.innerHTML = `<div class="sr-stage" id="sr-stage"><div class="sr-top"><button class="icon-btn" data-leave aria-label="Spiel verlassen" style="position:relative;z-index:4">${SVG_X}</button><span class="tm" id="sr-tm"></span><span id="sr-sc">0 ✓</span></div>
-    <div class="sr-bar"><i id="sr-bar"></i></div><div class="sr-word" id="sr-word"></div>
-    <div class="sr-zones"><button data-z="pass">◀︎ Weiter</button><button data-z="ok">Richtig ▶︎</button></div><div class="sr-flash" id="sr-flash"></div></div>`;
+    <div class="sr-bar"><i id="sr-bar"></i></div><div class="sr-hints"><span>◀︎ Weiter</span><span>Richtig ▶︎</span></div><div class="sr-word" id="sr-word"></div>
+    <div class="sr-zones"><button data-z="pass" aria-label="Weiter"></button><button data-z="ok" aria-label="Richtig"></button></div><div class="sr-flash" id="sr-flash"></div></div>`;
   on(ph, '[data-z]', b => srMark(b.dataset.z === 'ok'));
   if (R.tilt) window.addEventListener('deviceorientation', srOrient);
   tones([660], .1, .08, .4);
@@ -2320,13 +2322,29 @@ function srMark(ok){
   const st = $('#sr-stage'), fl = $('#sr-flash');
   st.classList.add(ok ? 'ok' : 'pass'); fl.textContent = ok ? 'Richtig!' : 'Weiter'; fl.classList.remove('show'); void fl.offsetWidth; fl.classList.add('show');
   $('#sr-sc').textContent = R.words.filter(x => x.ok).length + ' ✓';
-  ok ? tones([660, 880], .09, .08, .4) : tones([300], .1, .06, .35); haptic(ok ? 20 : 10);
+  ok ? tones([660, 880], .09, .1, .4) : srSkipSound(); haptic(ok ? 20 : 12);
   R.timers.push(setTimeout(() => { if (!$('#sr-stage')) return; st.classList.remove('ok', 'pass'); srNext(); R.lock = false; }, 650));
+}
+function srSkipSound(){ // sanftes „Wusch“ nach unten – gut hörbar auch über den iPhone-Lautsprecher
+  if (!actx || !APP.sound) return;
+  const t = actx.currentTime;
+  [[880, 520, 0, .16], [660, 390, .1, .12]].forEach(([a, b, d, v]) => {
+    const o = actx.createOscillator(), g = actx.createGain(), s = t + d;
+    o.type = 'triangle'; o.frequency.setValueAtTime(a, s); o.frequency.exponentialRampToValueAtTime(b, s + .22);
+    g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(v, s + .02); g.gain.exponentialRampToValueAtTime(.0001, s + .32);
+    o.connect(g).connect(actx.destination); o.start(s); o.stop(s + .4);
+  });
 }
 function srOrient(e){
   if (e.beta == null || e.gamma == null) return;
   const u = Math.cos(e.beta * Math.PI / 180) * Math.cos(e.gamma * Math.PI / 180); // Anteil der Bildschirm-Normalen nach oben
-  if (Math.abs(u) < .4){ R.armed = true; return; }
+  const now = Date.now();
+  if (Math.abs(u) < .3){ // gerade an der Stirn
+    if (!R.calmSince) R.calmSince = now;
+    if (!R.lock && now - R.calmSince > 350) R.armed = true; // erst nach kurzer Ruhe wieder bereit
+    return;
+  }
+  R.calmSince = 0;
   if (!R.armed || R.lock) return;
   if (u < -.62){ R.armed = false; srMark(true); }      // Bildschirm zeigt zum Boden → richtig
   else if (u > .62){ R.armed = false; srMark(false); } // Bildschirm zeigt zur Decke → weiter
